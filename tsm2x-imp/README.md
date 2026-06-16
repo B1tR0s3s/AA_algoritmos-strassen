@@ -1,44 +1,43 @@
+# TSM2X: Multiplicación matriz-matriz de alto rendimiento para matrices altas y delgadas en GPU
 
-TSM2X: High-Performance Tall-and-Skinny Matrix-Matrix Multiplication on GPUs
-=============================================================
+por
+Cody Rivera [[cjrivera1@crimson.ua.edu](mailto:cjrivera1@crimson.ua.edu)],
+Jieyang Chen [[chenj3@ornl.gov](mailto:chenj3@ornl.gov)] y
+Dingwen Tao [[dingwen.tao@wsu.edu](mailto:dingwen.tao@wsu.edu)]
 
-by
-Cody Rivera [cjrivera1@crimson.ua.edu],
-Jieyang Chen [chenj3@ornl.gov], and
-Dingwen Tao [dingwen.tao@wsu.edu]
+Este repositorio contiene una implementación de dos algoritmos de multiplicación matriz-matriz con formas irregulares: `TSM2R` y `TSM2L`.
 
-This repository contains an implementation of two irregular-shape matrix-matrix
-multiplication algorithms, `TSM2R` and `TSM2L`. `TSM2R` is designed to efficiently
-multiply a large square (or near-square) matrix by a tall-and-skinny matrix, or
-more specifically, an (m * k) and (k * n) matrix-matrix multiplication where
-m and k are approximately equal, and n is much smaller than k. `TSM2L` is designed
-to efficiently multiply a tall-and-skinny matrix by a small square matrix, or
-more specifically, an (m * k) and (k * n) matrix-matrix multiplication where 
-k is much smaller than m, and k and n are approximately equal.
+`TSM2R` está diseñado para multiplicar eficientemente una matriz cuadrada grande —o casi cuadrada— por una matriz alta y delgada. Más específicamente, realiza una multiplicación matriz-matriz entre una matriz de tamaño `(m * k)` y una matriz de tamaño `(k * n)`, donde `m` y `k` son aproximadamente iguales, y `n` es mucho menor que `k`.
 
-We propose `TSM2R` and `TSM2L` in our preprint,
-"TSM2X: High-Performance Tall-and-Skinny Matrix-MatrixMultiplication on GPUs." [1].
-Our work extends an ICS conference paper [2], which introduces `TSM2R`, by expanding
-its techniques for different matrix sizes as well as porting the algorithm to the Nvidia
-Tesla V100.
+`TSM2L` está diseñado para multiplicar eficientemente una matriz alta y delgada por una matriz cuadrada pequeña. Más específicamente, realiza una multiplicación matriz-matriz entre una matriz de tamaño `(m * k)` y una matriz de tamaño `(k * n)`, donde `k` es mucho menor que `m`, y `k` y `n` son aproximadamente iguales.
 
-We have implemented the kernels as templates, with the parameters `t1`, `t2`, and `t3` as
-template variables [1]. The program will select an optimal kernel depending on the 
-size of the input matrices. This repository currently provides a set of optimal kernels for
-the Nvidia V100 GPU only.
+Proponemos `TSM2R` y `TSM2L` en nuestro preprint,
+“TSM2X: High-Performance Tall-and-Skinny Matrix-Matrix Multiplication on GPUs” [1].
 
-Instructions:
--------------
+Nuestro trabajo extiende un artículo de la conferencia ICS [2], el cual introduce `TSM2R`, ampliando sus técnicas para distintos tamaños de matrices, además de portar el algoritmo a la GPU Nvidia Tesla V100.
 
-This implementation is designed for Unix platforms, and can be built using
-`make`. The usage of this program is: 
-`./multiply [-d] [-i] a.mtx b.mtx c.mtx`,
-where a.mtx and b.mtx are input matrices and c.mtx is an output matrix.
-`-d` indicates that the matrices are double-precision, while `-i` indicates
-that `TSM2L` (instead of `TSM2R`) is to be used.
+Hemos implementado los kernels como plantillas, con los parámetros `t1`, `t2` y `t3` como variables de plantilla [1]. El programa seleccionará un kernel óptimo dependiendo del tamaño de las matrices de entrada.
 
+Actualmente, este repositorio proporciona un conjunto de kernels óptimos únicamente para la GPU Nvidia V100.
 
-The format of the matrices is binary, with a structure as follows:
+## Instrucciones:
+
+Esta implementación está diseñada para plataformas Unix y puede compilarse usando `make`.
+
+Observacion importante:
+> Se tiene que modificar Makefile para adaptarlo al tipo de GPU que se poseea, por defecto, se encuentra con sm_70 en el repositorio original
+
+El uso de este programa es:
+
+```bash
+./multiply [-d] [-i] a.mtx b.mtx c.mtx
+```
+
+donde `a.mtx` y `b.mtx` son matrices de entrada, y `c.mtx` es la matriz de salida.
+
+La opción `-d` indica que las matrices son de doble precisión, mientras que `-i` indica que se usará `TSM2L` en lugar de `TSM2R`.
+
+El formato de las matrices es binario, con la siguiente estructura:
 
 ```C++
 template <typename FloatType>
@@ -48,28 +47,49 @@ struct matrixFormat {
 };
 ```
 
-The matrix is stored in column-major format.
-All multibyte values are little-endian.
+La matriz se almacena en formato column-major, es decir, por columnas.
 
-You may use the provided gen.cpp program to generate input
-matrices. The usage is `./gen [-d] -r ROW_COUNT -c COL_COUNT file`,
-where `-d` signifies double precision.
+Todos los valores multibyte están en formato little-endian.
 
-You may also use the provided print.cpp program to print matrices.
-The usage is `./print [-d] file`.
+Puede utilizar el programa proporcionado `gen.cpp` para generar matrices de entrada.
 
-To evaluate performance across a range of inputs, a Python3 script
-`test.py` is provided. The script can be invoked with 
-`python3 test.py`. The program requires that `../multiply` and
-`../gen` exist, and writes its output to CSV files.
+El uso es:
 
-Notes:
-------
+```bash
+./gen [-d] -r ROW_COUNT -c COL_COUNT file
+```
 
-[1] Cody Rivera, Jieyang Chen, Nan Xiong, Shuaiwen Leon Song, and Dingwen Tao. "TSM2X: High-Performance Tall-and-Skinny Matrix-MatrixMultiplication on GPUs." 
+donde `-d` indica doble precisión.
+
+También puede utilizar el programa proporcionado `print.cpp` para imprimir matrices.
+
+El uso es:
+
+```bash
+./print [-d] file
+```
+https://github.com/codyjrivera/tsm2x-imp/tree/master
+Para evaluar el rendimiento en un rango de entradas, se proporciona un script de Python 3 llamado `test.py`.
+
+El script puede ejecutarse con:
+
+```bash
+python3 test.py
+```
+
+Repositorio original: 
+https://github.com/codyjrivera/tsm2x-imp/tree/master
+
+El programa requiere que existan `../multiply` y `../gen`, y escribe su salida en archivos CSV.
+
+## Notas:
+
+[1] Cody Rivera, Jieyang Chen, Nan Xiong, Shuaiwen Leon Song y Dingwen Tao.
+“TSM2X: High-Performance Tall-and-Skinny Matrix-Matrix Multiplication on GPUs.”
 2020. [arXiv:2002.03258](https://arxiv.org/abs/2002.03258v4) [cs.DC].
 
-[2] Jieyang Chen, Nan Xiong, Xin Liang, Dingwen Tao, Sihuan Li, Kaiming Ouyang, Kai Zhao, Nathan DeBardeleben, Qiang Guan, and Zizhong Chen. 
-"TSM2: optimizing tall-and-skinny matrix-matrix multiplication on GPUs." 
-In Proceedings of the ACM International Conference on Supercomputing (ICS), pp. 106-116. ACM, 2019. 
-[https://doi.org/10.1145/3330345.3330355](https://doi.org/10.1145/3330345.3330355)
+[2] Jieyang Chen, Nan Xiong, Xin Liang, Dingwen Tao, Sihuan Li, Kaiming Ouyang, Kai Zhao, Nathan DeBardeleben, Qiang Guan y Zizhong Chen.
+“TSM2: optimizing tall-and-skinny matrix-matrix multiplication on GPUs.”
+En *Proceedings of the ACM International Conference on Supercomputing* (ICS), pp. 106–116. ACM, 2019.
+https://doi.org/10.1145/3330345.3330355
+
