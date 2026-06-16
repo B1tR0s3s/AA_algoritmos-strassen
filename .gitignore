@@ -1,0 +1,35 @@
+*.o
+*.mtx
+*.csv
+multiply
+gen
+print
+.csv
+.bin
+.mtx
+
+tsm2x-imp/matrices_generadas
+
+# Ignorar dependencias (se pueden reinstalar, no subirlas al repositorio)
+node_modules/
+
+# Variables de entorno y contraseñas (¡nunca subir esto a GitHub!)
+.env
+.env.local
+
+# Archivos de logs y registros
+logs/
+*.log
+
+# Carpetas de compilación o distribución
+dist/
+build/
+
+# Configuración del sistema operativo y del editor de código
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+
+venv
