@@ -25,7 +25,7 @@ Actualmente, este repositorio proporciona un conjunto de kernels óptimos única
 Esta implementación está diseñada para plataformas Unix y puede compilarse usando `make`.
 
 Observacion importante:
-> Se tiene que modificar Makefile para adaptarlo al tipo de GPU que se poseea, por defecto, se encuentra con sm_70 en el repositorio original
+> Se tiene que modificar Makefile para adaptarlo al tipo de GPU que se posea, por defecto, se encuentra con sm_70 en el repositorio original
 
 El uso de este programa es:
 
