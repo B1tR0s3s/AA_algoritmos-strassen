@@ -1,0 +1,4 @@
+repositorio,repeticion,status,total_time_ms,peak_memory_mb,avg_memory_mb,error
+matrix_chain_multiplication_using_Strassen’s_algorithm_.ipynb,1,ok,8874.386746999335,279.96484375,215.92461867559524,
+matrix_chain_multiplication_using_Strassen’s_algorithm_.ipynb,2,ok,4177.000724000209,283.09765625,235.20517578125,
+matrix_chain_multiplication_using_Strassen’s_algorithm_.ipynb,3,ok,4492.560923999918,283.1328125,236.5914789244186,
