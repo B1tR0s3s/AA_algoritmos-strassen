@@ -64,18 +64,42 @@ def run_measured(command, cwd="."):
     }
 
 repo = Path(".").resolve()
-sizes = [64, 128, 256, 512, 1024]
+gen_path = repo / "gen"
+multiply_path = repo / "multiply"
+mat_dir = repo / "matrices_generadas"
+mat_dir.mkdir(exist_ok=True)
+
+# Shapes: (m, k, n)  →  A[m×k] × B[k×n] = C[m×n]
+shapes = [
+    (64, 64, 64),
+    (128, 128, 128),
+    (256, 256, 256),
+    (512, 512, 512),
+    (1024, 1024, 1024),
+    # Rectangulares
+    (256, 512, 256),
+    (512, 256, 1024),
+    (1024, 512, 512),
+    (512, 1024, 2048),
+    (2048, 1024, 512),
+]
+
 reps = 3
 rows = []
 
-for n in sizes:
+for m, k, n in shapes:
     print(f"\n{'='*60}")
-    print(f"Tamaño: {n}x{n}")
+    print(f"Tamaño: A[{m}×{k}] × B[{k}×{n}] → C[{m}×{n}]")
     print(f"{'='*60}")
 
-    a_file = repo / "matrices_generadas" / f"A_{n}.mtx"
-    b_file = repo / "matrices_generadas" / f"B_{n}.mtx"
-    c_file = repo / "matrices_generadas" / f"C_{n}.mtx"
+    a_file = mat_dir / f"A_{m}x{k}.mtx"
+    b_file = mat_dir / f"B_{k}x{n}.mtx"
+    c_file = mat_dir / f"C_{m}x{n}.mtx"
+
+    if not a_file.exists():
+        subprocess.run([str(gen_path), "-r", str(m), "-c", str(k), str(a_file)], check=True)
+    if not b_file.exists():
+        subprocess.run([str(gen_path), "-r", str(k), "-c", str(n), str(b_file)], check=True)
 
     tiempos = []
     ram_peaks = []
@@ -104,11 +128,11 @@ for n in sizes:
             print(result["stderr"][:500])
 
     avg_time = mean(tiempos)
-    ops = 2 * n**3
+    ops = 2 * m * n * k
     gflops = ops / (avg_time / 1000) / 1e9 if avg_time > 0 else 0
 
     row = {
-        "size": n,
+        "m": m, "k": k, "n": n,
         "tiempo_prom_ms": round(avg_time, 3),
         "tiempo_std_ms": round(stdev(tiempos) if len(tiempos) > 1 else 0.0, 3),
         "ram_pico_prom_mb": round(mean(ram_peaks), 2),
@@ -118,17 +142,19 @@ for n in sizes:
     }
     rows.append(row)
 
-print(f"\n\n{'='*60}")
+print(f"\n\n{'='*80}")
 print("RESUMEN FINAL")
-print(f"{'='*60}")
-print(f"{'Size':>6} | {'Tiempo(ms)':>12} | {'Std(ms)':>8} | {'RAM(MB)':>8} | {'VRAM(MB)':>9} | {'GPU%':>6} | {'GFLOPS':>8}")
-print("-" * 70)
+print(f"{'='*80}")
+print(f"{'m':>5} {'k':>5} {'n':>5} | {'Tiempo(ms)':>10} | {'Std(ms)':>8} | {'RAM(MB)':>8} | {'VRAM(MB)':>9} | {'GPU%':>6} | {'GFLOPS':>8}")
+print("-" * 80)
 for r in rows:
-    print(f"{r['size']:>6} | {r['tiempo_prom_ms']:>10.3f}  | {r['tiempo_std_ms']:>6.3f}  | {r['ram_pico_prom_mb']:>6.2f} | {r['vram_pico_prom_mb']:>7.2f} | {r['gpu_util_prom']:>4.2f} | {r['gflops']:>6.2f}")
+    print(f"{r['m']:>5} {r['k']:>5} {r['n']:>5} | {r['tiempo_prom_ms']:>8.3f}  | {r['tiempo_std_ms']:>6.3f}  | {r['ram_pico_prom_mb']:>6.2f} | {r['vram_pico_prom_mb']:>7.2f} | {r['gpu_util_prom']:>4.2f} | {r['gflops']:>6.2f}")
 
-csv_file = repo / "resultados_cuadradas.csv"
+csv_file = repo / "resultados.csv"
 with open(csv_file, "w", newline="", encoding="utf-8") as f:
-    fieldnames = ["size", "tiempo_prom_ms", "tiempo_std_ms", "ram_pico_prom_mb", "vram_pico_prom_mb", "gpu_util_prom", "gflops"]
+    fieldnames = ["m", "k", "n", "tiempo_prom_ms", "tiempo_std_ms",
+                   "ram_pico_prom_mb", "vram_pico_prom_mb",
+                   "gpu_util_prom", "gflops"]
     writer = csv.DictWriter(f, fieldnames=fieldnames)
     writer.writeheader()
     writer.writerows(rows)
