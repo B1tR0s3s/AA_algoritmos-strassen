@@ -35,19 +35,27 @@ pip install psutil jupyter nbclient nbformat numpy matplotlib pandas
 ```
 ### 1. F1000 - Notebook MCM + Strassen
 
-> Ver README de F1000 en carpeta F1000
+Ver [README de F1000][f1000-readme].
 
 ### 2. TSM2X
 
-> Ver README de F1000 en carpeta F1000
-<!-- Aqui va lo del tercer repo -->
+Ver [README de TSM2X][tsm2x-readme].
 
 ### 3. Cutlass
-> Ver README de cutlass
+
+Ver [README de Cutlass][cutlass-readme].
 
 ### 4. Davis GEMM
 
-> Ver README de GEMM
+Ver [README de GEMM][gemm-readme].
 
-### 5. Propuesta de implementacion propia
-> Ver README de la propuesta
+### 5. Propuesta de implementación propia
+
+Ver [README de la propuesta][propuesta-readme].
+
+
+[f1000-readme]: https://github.com/B1tR0s3s/AA_algoritmos-strassen/blob/main/F1000/README.md
+[tsm2x-readme]: https://github.com/B1tR0s3s/AA_algoritmos-strassen/blob/main/tsm2x-imp/README.md
+[cutlass-readme]: https://github.com/B1tR0s3s/AA_algoritmos-strassen/blob/main/cutlass/README.md
+[gemm-readme]: https://github.com/B1tR0s3s/AA_algoritmos-strassen/blob/main/gemm/README.md
+[propuesta-readme]: https://github.com/B1tR0s3s/AA_algoritmos-strassen/blob/main/propuesta_strassen/README.md
