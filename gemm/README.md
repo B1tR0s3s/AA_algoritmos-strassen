@@ -29,6 +29,37 @@ make PREFIX=~/openblas install
 ./execute.sh
 ```
 
+#### Compilación:
+
+```
+./compile.sh [tamano_matriz]
+```
+
+#### Ejecución:
+
+```
+./mainCuda
+```
+
+#### Medición:
+
+```python
+# Ejecutar evaluación completa (64, 128, 256, 512, 1024)
+python evaluar_gemm.py --reps 30
+
+# Solo CPU (si no hay GPU)
+python evaluar_gemm.py --reps 30 --out evaluacion_cpu.csv
+
+```
+
+#### Métricas obtenidas:
+
+- Tiempo promedio
+- GFLOPs externos
+- RAM pico
+- VRAM pico
+- Uso promedio de GPU
+
 ## Sample Results
 
 Plotted are sample means with confidence intervals of FLOPS that were calculated from 30 runtimes for each algorithm and matrix size pair and resampled 10,000 times with replacement using bootstrapping.

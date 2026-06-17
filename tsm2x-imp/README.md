@@ -77,6 +77,19 @@ El script puede ejecutarse con:
 python3 test.py
 ```
 
+La ejecución de medición se realiza con:
+
+```bash
+python medicion_tsm2x.py
+```
+#### Métricas obtenidas:
+
+- Tiempo promedio
+- RAM pico
+- VRAM pico
+- Uso promedio de GPU
+
+
 Repositorio original: 
 https://github.com/codyjrivera/tsm2x-imp/tree/master
 
