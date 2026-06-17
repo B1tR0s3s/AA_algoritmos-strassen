@@ -47,33 +47,7 @@ pip install psutil jupyter nbclient nbformat numpy matplotlib pandas
 
 ### 4. Davis GEMM
 
-#### Compilación:
+> Ver README de GEMM
 
-```
-./compile.sh [tamano_matriz]
-```
-
-#### Ejecución:
-
-```
-./mainCuda
-```
-
-#### Medición:
-
-```python
-# Ejecutar evaluación completa (64, 128, 256, 512, 1024)
-python evaluar_gemm.py --reps 30
-
-# Solo CPU (si no hay GPU)
-python evaluar_gemm.py --reps 30 --out evaluacion_cpu.csv
-
-```
-
-#### Métricas obtenidas:
-
-- Tiempo promedio
-- GFLOPs externos
-- RAM pico
-- VRAM pico
-- Uso promedio de GPU
+### 5. Propuesta de implementacion propia
+> Ver README de la propuesta
