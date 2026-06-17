@@ -1,4 +1,4 @@
-# propuesta_strassen
+# Implementacion de la propuesta
 
 Este proyecto contiene dos implementaciones de multiplicación de matrices con Strassen y un generador de matrices de entrada.
 
