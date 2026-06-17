@@ -5,17 +5,17 @@
 ## Installation
 
 ```bash
-# Download
+# Descargar OpenBlas
 wget https://github.com/OpenMathLib/OpenBLAS/archive/refs/tags/v0.3.29.tar.gz
 tar -xvzf v0.3.29.tar.gz
 cd OpenBLAS-0.3.29
 
-# Install
+# Instalar
 make -j$(nproc) USE_OPENMP=1
 make PREFIX=~/openblas install
 ```
 
-## Compile & Execute One Test
+## Compila y ejecuta
 
 ```bash
 ./compile.sh <matrix-size>
@@ -23,7 +23,7 @@ make PREFIX=~/openblas install
 ./mainCuda
 ```
 
-## Compile & Execute All Tests
+## Compilar y ejecutar todos los test
 
 ```bash
 ./execute.sh
