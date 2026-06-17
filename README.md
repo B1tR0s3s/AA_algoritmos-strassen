@@ -34,9 +34,8 @@ pip install psutil jupyter nbclient nbformat numpy matplotlib pandas
 1. F1000 - Notebook MCM + Strassen
 
 
-```python
-python scripts/medir_f1000_ipynb.py f1000_strassen.ipynb --reps 3
-```
+El notebook original fue usado como base. Para obtener resultados reales por tamaño de matriz, se reemplazó la celda de datos estáticos por una celda de ejecución que genera matrices, calcula la multiplicación estándar y Strassen, mide tiempos, memoria y error numérico.
+
 
 Métricas obtenidas:
 
