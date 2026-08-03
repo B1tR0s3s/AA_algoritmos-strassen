@@ -392,7 +392,6 @@ int main()
     if (n <= 16)
         imprimir_matriz("Resultado C = A × B", hC, n);
 
-    printf("\nAhora puedes ejecutar: ./verificar\n");
 
     // ----------------------------------------------------------
     //  5. Limpiar
