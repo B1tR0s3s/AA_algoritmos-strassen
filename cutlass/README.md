@@ -1,32 +1,32 @@
 # CUTLASS Stream-K GEMM Benchmark
 
-Este repositorio contiene un script para compilar y ejecutar el ejemplo oficial de NVIDIA CUTLASS:
+This repository contains a script to build and run the official NVIDIA CUTLASS example:
 
 ```txt
 examples/47_ampere_gemm_universal_streamk
 ```
 
-El archivo original del ejemplo es:
+The original example file is:
 
 ```txt
 examples/47_ampere_gemm_universal_streamk/ampere_gemm_universal_streamk.cu
 ```
 
-Ese archivo no es un script shell. Es un archivo CUDA/C++ que se compila para generar el ejecutable:
+That file is not a shell script. It is a CUDA/C++ file that is compiled to produce the executable:
 
 ```txt
 47_ampere_gemm_universal_streamk
 ```
 
-El objetivo del script incluido en este repositorio es automatizar la compilación y ejecución de ese ejemplo de CUTLASS.
+The goal of the script included in this repository is to automate the build and execution of that CUTLASS example.
 
 ---
 
-## Qué hace este ejemplo
+## What This Example Does
 
-El ejemplo evalúa una operación GEMM, es decir, una multiplicación general de matrices.
+The example evaluates a GEMM operation, that is, general matrix multiplication.
 
-Compara varias formas de ejecutar GEMM en GPU:
+It compares several ways to run GEMM on the GPU:
 
 - Basic data-parallel GEMM
 - StreamK GEMM
@@ -34,11 +34,11 @@ Compara varias formas de ejecutar GEMM en GPU:
 - Basic Split-K GEMM
 - StreamK emulando Split-K GEMM
 
-Este benchmark permite medir rendimiento en milisegundos y GFLOPs para distintos tamaños de matrices.
+This benchmark measures performance in milliseconds and GFLOPs for different matrix sizes.
 
 ---
 
-## Requisitos
+## Requirements
 
 - GPU NVIDIA compatible con CUDA
 - CUDA Toolkit
@@ -46,7 +46,7 @@ Este benchmark permite medir rendimiento en milisegundos y GFLOPs para distintos
 - Make
 - CUTLASS clonado localmente
 
-Clonar CUTLASS:
+Clone CUTLASS:
 
 ```bash
 git clone https://github.com/NVIDIA/cutlass.git
@@ -55,41 +55,41 @@ cd cutlass
 
 ---
 
-## Uso con script
+## Using the Script
 
-Este repositorio contiene un script que automatiza los comandos necesarios.
+This repository contains a script that automates the required commands.
 
-Dar permisos de ejecución:
+Grant execution permissions:
 
 ```bash
 chmod +x run_streamk.sh
 ```
 
-Ejecutar el script:
+Run the script:
 
 ```bash
 ./run_streamk.sh
 ```
 
-> Si el script tiene otro nombre, reemplaza `run_streamk.sh` por el nombre real del archivo.
+> If the script has a different name, replace `run_streamk.sh` with the actual file name.
 
 ---
 
-## Compilación manual
+## Manual Build
 
-También puedes compilar el ejemplo manualmente desde la raíz del repositorio de CUTLASS.
+You can also build the example manually from the root of the CUTLASS repository.
 
 ---
 
 ## RTX 3060 / 3070 / 3080 / 3090
 
-Para GPUs RTX serie 30 se usa arquitectura CUDA:
+For RTX 30 series GPUs, use CUDA architecture:
 
 ```txt
 sm_86
 ```
 
-Comandos:
+Commands:
 
 ```bash
 mkdir build
@@ -103,7 +103,7 @@ make 47_ampere_gemm_universal_streamk -j$(nproc)
 
 ## RTX 4060 / 4070 / 4080 / 4090
 
-Para GPUs RTX serie 40 se usa arquitectura CUDA:
+For RTX 40 series GPUs, use CUDA architecture:
 
 ```txt
 sm_89
@@ -121,9 +121,9 @@ make 47_ampere_gemm_universal_streamk -j$(nproc)
 
 ---
 
-## Ejecutar el ejemplo
+## Run the Example
 
-Desde el directorio `cutlass/build`:
+From the `cutlass/build` directory:
 
 ```bash
 ./examples/47_ampere_gemm_universal_streamk/47_ampere_gemm_universal_streamk
@@ -131,7 +131,7 @@ Desde el directorio `cutlass/build`:
 
 ---
 
-## Ejecutar benchmarks
+## Run Benchmarks
 
 ### GEMM 1024 x 1024 x 1024
 
@@ -153,19 +153,19 @@ Desde el directorio `cutlass/build`:
 
 ---
 
-## Parámetros disponibles
+## Available Parameters
 
-El ejecutable permite modificar el tamaño del problema GEMM y algunos parámetros de ejecución.
+The executable lets you modify the GEMM problem size and some execution parameters.
 
 ```txt
---m              Dimensión M de GEMM
---n              Dimensión N de GEMM
---k              Dimensión K de GEMM
---alpha          Escalar alpha
---beta           Escalar beta
---split          Factor Split-K
---iterations     Número de iteraciones del benchmark
---help           Muestra la ayuda del ejecutable
+--m              GEMM M dimension
+--n              GEMM N dimension
+--k              GEMM K dimension
+--alpha          Alpha scalar
+--beta           Beta scalar
+--split          Split-K factor
+--iterations     Number of benchmark iterations
+--help           Show the executable help
 ```
 
 Ejemplo:
@@ -176,7 +176,7 @@ Ejemplo:
 
 ---
 
-## Ver ayuda
+## View Help
 
 ```bash
 ./examples/47_ampere_gemm_universal_streamk/47_ampere_gemm_universal_streamk --help
@@ -184,18 +184,18 @@ Ejemplo:
 
 ---
 
-## Limpiar compilación
+## Clean Build
 
-Si necesitas compilar desde cero:
+If you need to rebuild from scratch:
 
 ```bash
 rm -rf build
 ```
 
-Luego vuelve a ejecutar el script o los comandos manuales correspondientes a tu GPU.
+Then run the script again or the manual commands that match your GPU.
 
 ---
 
-## Nota
+## Note
 
-Este repositorio no modifica el ejemplo original de CUTLASS. Solo proporciona un script para facilitar su compilación y ejecución.
+This repository does not modify the original CUTLASS example. It only provides a script to make building and running it easier.

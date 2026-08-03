@@ -1,27 +1,27 @@
-## Ejecucion de repositorios
-### 1. F1000 - Notebook MCM + Strassen
-#### Ejecución de mediciones
+## Repository Execution
+### 1. F1000 - MCM + Strassen Notebook
+#### Measurement Execution
 
-#### En Visual Studio Code
-Requisitos:
+#### In Visual Studio Code
+Requirements:
 - Python 3
-- Extensión Jupyter para Visual Studio Code o acceso a Google Colab
-- Cuenta de Google (si se utilizará Google Colab)
+- Jupyter extension for Visual Studio Code or access to Google Colab
+- Google account (if Google Colab will be used)
 
-Instrucciones:
-- Abrir el notebook en Visual Studio Code.
-- Seleccionar un entorno de ejecución compatible: Jupyter (local) o Google Colab.
-- Si se utiliza Google Colab, iniciar sesión con una cuenta de Google.
-- Verificar que el kernel de Python 3 esté seleccionado.
-- Ejecutar todas las celdas del notebook mediante la opción Run All.
-- Esperar a que finalice la ejecución para obtener las mediciones y resultados correspondientes.
+Instructions:
+- Open the notebook in Visual Studio Code.
+- Select a compatible runtime: local Jupyter or Google Colab.
+- If using Google Colab, sign in with a Google account.
+- Verify that the Python 3 kernel is selected.
+- Run all notebook cells using the Run All option.
+- Wait for execution to finish to obtain the corresponding measurements and results.
 
-El notebook original fue usado como base. Para obtener resultados reales por tamaño de matriz, se reemplazó la celda de datos estáticos por una celda de ejecución que genera matrices, calcula la multiplicación estándar y Strassen, mide tiempos, memoria y error numérico.
+The original notebook was used as the base. To obtain real results by matrix size, the static data cell was replaced with an execution cell that generates matrices, computes standard and Strassen multiplication, and measures time, memory, and numerical error.
 
 
-#### Métricas obtenidas:
+#### Metrics Obtained:
 
-- Tiempo total de ejecución
-- Memoria RAM pico
-- Memoria RAM promedio
-- Tiempo por celda
+- Total execution time
+- Peak RAM usage
+- Average RAM usage
+- Time per cell

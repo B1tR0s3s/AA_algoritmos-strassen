@@ -2,79 +2,79 @@
 
 [![DOI](https://zenodo.org/badge/956219726.svg)](https://doi.org/10.5281/zenodo.17299738)
 
-Implementación y evaluación de rendimiento de la multiplicación general de matrices (GEMM) en CPU y GPU.
+Implementation and performance evaluation of general matrix multiplication (GEMM) on CPU and GPU.
 
-## Instalación
+## Installation
 
 ```bash
-# Descargar OpenBLAS
+# Download OpenBLAS
 wget https://github.com/OpenMathLib/OpenBLAS/archive/refs/tags/v0.3.29.tar.gz
 tar -xvzf v0.3.29.tar.gz
 cd OpenBLAS-0.3.29
 
-# Compilar e instalar
+# Build and install
 make -j$(nproc) USE_OPENMP=1
 make PREFIX=~/openblas install
 ```
 
-## Compilación y ejecución
+## Build and Run
 
-Compilar el proyecto para un tamaño de matriz específico:
+Build the project for a specific matrix size:
 
 ```bash
 ./compile.sh <tamano_matriz>
 ```
 
-Ejecutar la versión para CPU:
+Run the CPU version:
 
 ```bash
 ./main
 ```
 
-Ejecutar la versión para GPU (CUDA):
+Run the GPU version (CUDA):
 
 ```bash
 ./mainCuda
 ```
 
-## Ejecutar todas las pruebas
+## Run All Tests
 
 ```bash
 ./execute.sh
 ```
 
-## Evaluación de rendimiento
+## Performance Evaluation
 
-Ejecutar la batería completa de pruebas:
+Run the full test suite:
 
 ```bash
-# Evaluar todos los tamaños de matriz (64, 128, 256, 512, 1024)
+# Evaluate all matrix sizes (64, 128, 256, 512, 1024)
 python evaluar_gemm.py --reps 30
 
-# Evaluación solo en CPU
+# CPU-only evaluation
 python evaluar_gemm.py --reps 30 --out evaluacion_cpu.csv
 ```
 
-### Métricas obtenidas
+### Metrics Obtained
 
-- Tiempo promedio de ejecución
+- Average execution time
 - GFLOPs
-- Uso máximo de RAM
-- Uso máximo de VRAM
-- Utilización promedio de GPU
+- Maximum RAM usage
+- Maximum VRAM usage
+- Average GPU utilization
 
-## Resultados de ejemplo
+## Example Results
 
-Los siguientes gráficos fueron generados con `evaluar_gemm.py`. Los resultados corresponden a 30 ejecuciones por tamaño de matriz y muestran el rendimiento promedio (GFLOPs) junto con intervalos de confianza del 95% estimados mediante *bootstrapping*.
+The following charts were generated with `evaluar_gemm.py`. The results correspond to 30 runs per matrix size and show the average performance (GFLOPs) together with 95% confidence intervals estimated using *bootstrapping*.
 
-### Rendimiento en GPU
+### GPU Performance
 
 ![Performance v.s. Matrix Size](assets/gpu.png)
 
-### Rendimiento en CPU
+### CPU Performance
 
 ![Performance v.s. Matrix Size](assets/cpu.png)
 
-### Resultados detallados
+### Detailed Results
 
 ![Detailed Performance v.s. Matrix Size](assets/table.png)

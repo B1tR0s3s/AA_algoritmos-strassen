@@ -1,55 +1,55 @@
-# Implementacion de la propuesta
+# Proposal Implementation
 
-Este proyecto contiene dos implementaciones de multiplicación de matrices con Strassen y un generador de matrices de entrada.
+This project contains two Strassen matrix multiplication implementations and an input matrix generator.
 
-## Estructura
+## Structure
 
-- `generar/generar_matrices.cpp`: crea `A.txt` y `B.txt` con valores aleatorios.
-- `strassenCPU/strassen.cpp`: versión secuencial en C++.
-- `strassen_cuda.cu`: versión en CUDA con recursión y umbral híbrido.
+- `generar/generar_matrices.cpp`: creates `A.txt` and `B.txt` with random values.
+- `strassenCPU/strassen.cpp`: sequential C++ version.
+- `strassen_cuda.cu`: CUDA version with recursion and a hybrid threshold.
 
-## Requisitos básicos
+## Basic Requirements
 
-- Sistema Linux o compatible con herramientas de compilación de C/C++.
-- `g++` para compilar la versión CPU y el generador.
-- `nvcc` y CUDA Toolkit para compilar la versión CUDA.
-- Una GPU compatible con CUDA para ejecutar `strassen_cuda.cu`.
-- Las matrices de entrada deben ser cuadradas, del mismo tamaño y estar guardadas como `A.txt` y `B.txt` en la carpeta `propuesta_strassen`.
-- Para que Strassen funcione correctamente, el tamaño debe ser potencia de 2: 4, 8, 16, 32, 64, etc.
+- Linux or a compatible system with C/C++ build tools.
+- `g++` to compile the CPU version and the generator.
+- `nvcc` and CUDA Toolkit to compile the CUDA version.
+- A CUDA-compatible GPU to run `strassen_cuda.cu`.
+- Input matrices must be square, the same size, and saved as `A.txt` and `B.txt` in the `propuesta_strassen` folder.
+- For Strassen to work correctly, the size must be a power of 2: 4, 8, 16, 32, 64, etc.
 
-## Dependencias necesarias
+## Required Dependencies
 
-### CPU y generador
+### CPU and Generator
 
-- Biblioteca estándar de C++.
-- No usa dependencias externas.
+- C++ standard library.
+- No external dependencies.
 
 ### CUDA
 
 - CUDA Runtime.
-- CUDA Toolkit instalado y configurado en el entorno.
+- CUDA Toolkit installed and configured in the environment.
 
-## Comandos de ejecución
+## Run Commands
 
-Todos los comandos asumen que estás parado dentro de `propuesta_strassen`.
+All commands assume you are inside `propuesta_strassen`.
 
-### 1. Generar matrices de entrada
+### 1. Generate Input Matrices
 
-Compila:
+Build:
 
 ```bash
 g++ -O2 -std=c++17 -o generar_matrices generar/generar_matrices.cpp
 ```
 
-Ejecuta:
+Run:
 
 ```bash
 ./generar_matrices
 ```
 
-Esto crea `A.txt` y `B.txt` en la carpeta actual.
+This creates `A.txt` and `B.txt` in the current folder.
 
-### 2. Ejecutar la versión CPU
+### 2. Run the CPU Version
 
 Compila:
 
@@ -57,15 +57,15 @@ Compila:
 g++ -O2 -std=c++17 -o strassen_cpu strassenCPU/strassen.cpp
 ```
 
-Ejecuta:
+Run:
 
 ```bash
 ./strassen_cpu
 ```
 
-Lee `A.txt` y `B.txt`, multiplica ambas matrices y guarda el resultado en `C.txt`.
+It reads `A.txt` and `B.txt`, multiplies both matrices, and saves the result to `C.txt`.
 
-### 3. Ejecutar la versión CUDA
+### 3. Run the CUDA Version
 
 Compila:
 
@@ -73,127 +73,127 @@ Compila:
 nvcc -O2 -o strassen_cuda strassen_cuda.cu
 ```
 
-Ejecuta:
+Run:
 
 ```bash
 ./strassen_cuda
 ```
 
-Lee `A.txt` y `B.txt`, ejecuta la multiplicación en GPU y guarda el resultado en `C.txt`.
+It reads `A.txt` and `B.txt`, runs the multiplication on the GPU, and saves the result to `C.txt`.
 
-## Lógica de cada función
+## Function Logic
 
 ### `generar/generar_matrices.cpp`
 
 #### `guardar(const char* archivo, float* M, int n)`
 
-Escribe una matriz en un archivo de texto. Primero guarda el tamaño `n` y luego imprime todos los valores fila por fila.
+Writes a matrix to a text file. It first saves the size `n` and then prints all values row by row.
 
 #### `main()`
 
-Inicializa la semilla aleatoria, reserva memoria para dos matrices `N x N`, llena ambas con enteros aleatorios entre 1 y 9, y luego las guarda en `A.txt` y `B.txt`. Al final libera memoria y muestra un mensaje de confirmación.
+Initializes the random seed, allocates memory for two `N x N` matrices, fills both with random integers between 1 and 9, and then saves them to `A.txt` and `B.txt`. Finally, it frees memory and shows a confirmation message.
 
 ### `strassenCPU/strassen.cpp`
 
 #### `crearMatriz(int n)`
 
-Crea una matriz `n x n` inicializada en cero. Se usa como base para construir submatrices y resultados intermedios.
+Creates an `n x n` matrix initialized to zero. It is used as the base for building submatrices and intermediate results.
 
 #### `sumar(const Matrix& A, const Matrix& B)`
 
-Realiza suma elemento a elemento entre dos matrices del mismo tamaño y devuelve una nueva matriz con el resultado.
+Performs element-wise addition between two matrices of the same size and returns a new matrix with the result.
 
 #### `restar(const Matrix& A, const Matrix& B)`
 
-Realiza resta elemento a elemento entre dos matrices del mismo tamaño y devuelve una nueva matriz con el resultado.
+Performs element-wise subtraction between two matrices of the same size and returns a new matrix with the result.
 
 #### `strassen(const Matrix& A, const Matrix& B)`
 
-Implementa la multiplicación de Strassen de forma recursiva.
+Implements Strassen multiplication recursively.
 
-- Si la matriz es de tamaño `1 x 1`, multiplica directamente los valores.
-- Si no, divide ambas matrices en cuatro cuadrantes.
-- Calcula los 7 productos intermedios de Strassen (`M1` a `M7`).
-- Combina esos productos para construir los 4 cuadrantes del resultado (`C11`, `C12`, `C21`, `C22`).
-- Une los cuadrantes en una sola matriz y la retorna.
+- If the matrix size is `1 x 1`, it multiplies the values directly.
+- Otherwise, it divides both matrices into four quadrants.
+- It computes Strassen's 7 intermediate products (`M1` to `M7`).
+- It combines those products to build the 4 result quadrants (`C11`, `C12`, `C21`, `C22`).
+- It merges the quadrants into a single matrix and returns it.
 
 #### `leerMatriz(const string& nombreArchivo)`
 
-Abre un archivo de texto, ignora líneas vacías o comentarios que empiecen con `#`, lee el tamaño `n` y luego carga los `n x n` valores de la matriz.
+Opens a text file, ignores empty lines or comments starting with `#`, reads the size `n`, and then loads the `n x n` matrix values.
 
 #### `guardarMatriz(const Matrix& M, const string& nombreArchivo)`
 
-Guarda una matriz en un archivo de texto. Primero escribe `n` y después cada fila con sus valores separados por espacios.
+Saves a matrix to a text file. It first writes `n` and then each row with values separated by spaces.
 
 #### `main()`
 
-Lee `A.txt` y `B.txt`, valida que ambas matrices tengan el mismo tamaño, mide el tiempo de ejecución de `strassen`, guarda el resultado en `C.txt` y muestra el tiempo total en milisegundos.
+Reads `A.txt` and `B.txt`, validates that both matrices have the same size, measures the execution time of `strassen`, saves the result to `C.txt`, and prints the total time in milliseconds.
 
 ### `strassen_cuda.cu`
 
 #### `gemm_kernel(...)`
 
-Kernel clásico de multiplicación de matrices con memoria compartida. Se usa como caso base cuando el tamaño es pequeño. Calcula `C = alpha * A * B + beta * C`.
+Classic matrix multiplication kernel with shared memory. It is used as the base case when the size is small. Computes `C = alpha * A * B + beta * C`.
 
 #### `mat_add_kernel(...)`
 
-Kernel de suma/resta elemento a elemento. Calcula `R = alpha * A + beta * B` para acelerar las operaciones auxiliares de Strassen.
+Element-wise addition/subtraction kernel. Computes `R = alpha * A + beta * B` to speed up Strassen's auxiliary operations.
 
 #### `extract_submatrix(...)`
 
-Extrae un cuadrante de una matriz grande en GPU y lo copia a una submatriz destino.
+Extracts a quadrant from a large matrix on the GPU and copies it to a destination submatrix.
 
 #### `insert_submatrix(...)`
 
-Inserta una submatriz en una posición concreta de la matriz destino.
+Inserts a submatrix into a specific position in the destination matrix.
 
 #### `gpu_gemm(...)`
 
-Función de host que configura bloques y grillas para lanzar `gemm_kernel`.
+Host function that configures blocks and grids to launch `gemm_kernel`.
 
 #### `gpu_add(...)`
 
-Función de host que lanza `mat_add_kernel` para sumar o restar matrices en GPU.
+Host function that launches `mat_add_kernel` to add or subtract matrices on the GPU.
 
 #### `strassen_gpu(...)`
 
-Implementa Strassen recursivo en GPU.
+Implements recursive Strassen on the GPU.
 
-- Si `n` es menor o igual al umbral `STRASSEN_THRESHOLD`, usa GEMM clásico.
-- Si no, divide `A` y `B` en cuatro cuadrantes.
-- Extrae los cuadrantes a memoria temporal de GPU.
-- Calcula los 7 productos de Strassen con llamadas recursivas.
-- Combina los resultados para formar los cuadrantes de `C`.
-- Inserta los cuadrantes finales en la matriz de salida.
-- Libera toda la memoria temporal reservada.
+- If `n` is less than or equal to `STRASSEN_THRESHOLD`, it uses classic GEMM.
+- Otherwise, it divides `A` and `B` into four quadrants.
+- It extracts the quadrants into temporary GPU memory.
+- It computes the 7 Strassen products with recursive calls.
+- It combines the results to form the quadrants of `C`.
+- It inserts the final quadrants into the output matrix.
+- It frees all allocated temporary memory.
 
 #### `leer_matriz(...)`
 
-Abre `A.txt` o `B.txt`, lee el tamaño de la matriz, reserva memoria en host y carga todos los valores. Si ocurre un error, devuelve `-1`.
+Opens `A.txt` or `B.txt`, reads the matrix size, allocates host memory, and loads all values. If an error occurs, it returns `-1`.
 
 #### `guardar_matriz(...)`
 
-Guarda una matriz en archivo con una cabecera legible, el tamaño `n` y los valores formateados con cuatro decimales.
+Saves a matrix to a file with a readable header, the size `n`, and values formatted with four decimals.
 
 #### `imprimir_matriz(...)`
 
-Imprime una matriz en consola. Se usa solo cuando el tamaño es pequeño para facilitar la inspección visual.
+Prints a matrix to the console. It is used only when the size is small to make visual inspection easier.
 
 #### `main()`
 
-Lee `A.txt` y `B.txt`, valida tamaños, copia datos a la GPU, ejecuta `strassen_gpu`, mide el tiempo con eventos CUDA, copia el resultado de vuelta al host y lo guarda en `C.txt`. Al final libera memoria y destruye los eventos.
+Reads `A.txt` and `B.txt`, validates sizes, copies data to the GPU, runs `strassen_gpu`, measures the time with CUDA events, copies the result back to the host, and saves it to `C.txt`. Finally, it frees memory and destroys the events.
 
-## Flujo recomendado de uso
+## Recommended Workflow
 
-1. Compilar `generar_matrices`.
-2. Ejecutar `./generar_matrices` para crear `A.txt` y `B.txt`.
-3. Compilar `strassen_cpu` o `strassen_cuda`.
-4. Ejecutar la versión que quieras probar.
-5. Revisar `C.txt` para ver el resultado.
+1. Build `generar_matrices`.
+2. Run `./generar_matrices` to create `A.txt` and `B.txt`.
+3. Build `strassen_cpu` or `strassen_cuda`.
+4. Run the version you want to test.
+5. Check `C.txt` to see the result.
 
-## Notas importantes
+## Important Notes
 
-- El archivo `A.txt` y `B.txt` deben existir antes de ejecutar cualquiera de las dos versiones de Strassen.
-- La versión CPU usa enteros en memoria lógica, mientras que la versión CUDA trabaja con `float`.
-- En `generar_matrices.cpp`, el tamaño `N` se define como una constante y debe mantenerse como potencia de 2 para evitar problemas con Strassen.
-- En `strassen_cuda.cu`, el programa asume que la GPU soporta CUDA y que el tamaño de la matriz es potencia de 2.
+- `A.txt` and `B.txt` must exist before running either Strassen version.
+- The CPU version uses integers in logical memory, while the CUDA version works with `float`.
+- In `generar_matrices.cpp`, the size `N` is defined as a constant and must remain a power of 2 to avoid issues with Strassen.
+- In `strassen_cuda.cu`, the program assumes the GPU supports CUDA and that the matrix size is a power of 2.
